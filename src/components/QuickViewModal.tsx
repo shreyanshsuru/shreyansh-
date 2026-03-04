@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ShoppingCart, Ruler } from 'lucide-react';
+import { X, ShoppingCart, Ruler, Plus, Minus } from 'lucide-react';
 import { Product } from '../types';
 import { useToast } from '../ToastContext';
 import { useCart } from '../CartContext';
@@ -14,13 +14,19 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
   const { showToast } = useToast();
   const { addToCart } = useCart();
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState(product.variants?.[0]);
 
   if (!product) return null;
 
   const handleAddToCart = () => {
     if (product.isSoldOut) return;
-    addToCart(product);
-    showToast(`${product.name} ADDED TO SYNDICATE CART`);
+    addToCart(product, quantity, selectedVariant);
+    showToast(`${quantity} x ${product.name}${selectedVariant ? ` (${selectedVariant.name})` : ''} ADDED TO SYNDICATE CART`);
+  };
+
+  const updateQuantity = (delta: number) => {
+    setQuantity(prev => Math.max(1, prev + delta));
   };
 
   return (
@@ -87,6 +93,29 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                 {product.description}
               </p>
 
+              {product.variants && (
+                <div className="space-y-3">
+                  <span className="text-[10px] font-bold tracking-widest uppercase text-brand-muted">
+                    SELECT {product.variants[0].type}
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((variant) => (
+                      <button
+                        key={variant.id}
+                        onClick={() => setSelectedVariant(variant)}
+                        className={`px-4 py-2 text-[10px] font-bold uppercase border transition-all ${
+                          selectedVariant?.id === variant.id 
+                            ? 'bg-brand-red border-brand-red text-white' 
+                            : 'bg-white border-brand-border text-black hover:border-brand-red'
+                        }`}
+                      >
+                        {variant.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="space-y-4 pt-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-wrap gap-2">
@@ -108,18 +137,38 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
                   </button>
                 </div>
 
-                <button 
-                  onClick={handleAddToCart}
-                  disabled={product.isSoldOut}
-                  className={`w-full py-4 px-8 text-xs font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-3 transition-all group ${
-                    product.isSoldOut 
-                      ? 'bg-brand-border text-brand-muted cursor-not-allowed' 
-                      : 'bg-brand-red text-white hover:bg-brand-red/80'
-                  }`}
-                >
-                  <ShoppingCart className={`w-4 h-4 ${!product.isSoldOut && 'group-hover:scale-110'} transition-transform`} />
-                  {product.isSoldOut ? 'Sold Out' : 'Add to Cart'}
-                </button>
+                <div className="flex gap-4">
+                  <div className={`flex items-center border border-brand-border rounded-sm ${product.isSoldOut ? 'opacity-50' : ''}`}>
+                    <button 
+                      onClick={() => updateQuantity(-1)}
+                      disabled={product.isSoldOut}
+                      className="p-3 hover:bg-brand-border transition-colors disabled:cursor-not-allowed"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-12 text-center text-sm font-bold font-mono">{quantity}</span>
+                    <button 
+                      onClick={() => updateQuantity(1)}
+                      disabled={product.isSoldOut}
+                      className="p-3 hover:bg-brand-border transition-colors disabled:cursor-not-allowed"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <button 
+                    onClick={handleAddToCart}
+                    disabled={product.isSoldOut}
+                    className={`flex-grow py-4 px-8 text-xs font-bold tracking-[0.2em] uppercase flex items-center justify-center gap-3 transition-all group ${
+                      product.isSoldOut 
+                        ? 'bg-brand-border text-brand-muted cursor-not-allowed' 
+                        : 'bg-brand-red text-white hover:bg-brand-red/80'
+                    }`}
+                  >
+                    <ShoppingCart className={`w-4 h-4 ${!product.isSoldOut && 'group-hover:scale-110'} transition-transform`} />
+                    {product.isSoldOut ? 'Sold Out' : 'Add to Cart'}
+                  </button>
+                </div>
               </div>
 
               {/* Size Guide Overlay */}

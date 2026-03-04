@@ -1,15 +1,16 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Product } from './types';
+import { Product, Variant } from './types';
 
 interface CartItem extends Product {
   quantity: number;
+  selectedVariant?: Variant;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, delta: number) => void;
+  addToCart: (product: Product, quantity?: number, variant?: Variant) => void;
+  removeFromCart: (productId: string, variantId?: string) => void;
+  updateQuantity: (productId: string, delta: number, variantId?: string) => void;
   totalItems: number;
   totalPrice: number;
   clearCart: () => void;
@@ -20,25 +21,31 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Product, quantity: number = 1, variant?: Variant) => {
     setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existing = prev.find(item => 
+        item.id === product.id && item.selectedVariant?.id === variant?.id
+      );
       if (existing) {
         return prev.map(item => 
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          (item.id === product.id && item.selectedVariant?.id === variant?.id)
+            ? { ...item, quantity: item.quantity + quantity } 
+            : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity, selectedVariant: variant }];
     });
   };
 
-  const removeFromCart = (productId: string) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+  const removeFromCart = (productId: string, variantId?: string) => {
+    setCart(prev => prev.filter(item => 
+      !(item.id === productId && item.selectedVariant?.id === variantId)
+    ));
   };
 
-  const updateQuantity = (productId: string, delta: number) => {
+  const updateQuantity = (productId: string, delta: number, variantId?: string) => {
     setCart(prev => prev.map(item => {
-      if (item.id === productId) {
+      if (item.id === productId && item.selectedVariant?.id === variantId) {
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
       }

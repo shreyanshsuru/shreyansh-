@@ -1,3 +1,9 @@
+export interface Variant {
+  id: string;
+  name: string;
+  type: 'Color' | 'Material';
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -9,6 +15,7 @@ export interface Product {
   description: string;
   originalPrice?: number;
   isSoldOut?: boolean;
+  variants?: Variant[];
 }
 
 export type Category = 'All Products' | 'Tops' | 'Bottoms' | 'Accessories';

@@ -10,7 +10,12 @@ export const PRODUCTS: Product[] = [
     size: ['S', 'M', 'L', 'XL'],
     drop: 'DROP 01',
     description: 'A premium heavyweight hoodie designed for maximum comfort and durability. Features a relaxed fit and a deep midnight black finish.',
-    originalPrice: 4999
+    originalPrice: 4999,
+    variants: [
+      { id: 'v1', name: 'Midnight Black', type: 'Color' },
+      { id: 'v2', name: 'Slate Grey', type: 'Color' },
+      { id: 'v3', name: 'Deep Navy', type: 'Color' }
+    ]
   },
   {
     id: '2',
@@ -32,7 +37,11 @@ export const PRODUCTS: Product[] = [
     size: ['S', 'M', 'L'],
     drop: 'DROP 01',
     description: 'Technical cargo pants with multiple utility pockets. Reinforced stitching and adjustable cuffs for a customizable fit.',
-    originalPrice: 5999
+    originalPrice: 5999,
+    variants: [
+      { id: 'v4', name: 'Cotton Twill', type: 'Material' },
+      { id: 'v5', name: 'Ripstop Nylon', type: 'Material' }
+    ]
   },
   {
     id: '4',
@@ -72,7 +81,11 @@ export const PRODUCTS: Product[] = [
     category: 'Tops',
     size: ['S', 'M', 'L', 'XL'],
     drop: 'DROP 02',
-    description: 'Limited edition graphic tee featuring the Syndicate emblem. High-density screen print on premium cotton.'
+    description: 'Limited edition graphic tee featuring the Syndicate emblem. High-density screen print on premium cotton.',
+    variants: [
+      { id: 'v6', name: 'Acid Wash', type: 'Material' },
+      { id: 'v7', name: 'Classic Cotton', type: 'Material' }
+    ]
   },
   {
     id: '8',

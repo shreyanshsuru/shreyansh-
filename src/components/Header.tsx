@@ -191,15 +191,20 @@ export default function Header() {
                             <div className="flex-grow flex flex-col justify-between py-1">
                               <div>
                                 <h3 className="text-[11px] font-bold uppercase mb-1">{item.name}</h3>
+                                {item.selectedVariant && (
+                                  <p className="text-[9px] text-brand-muted uppercase tracking-widest mb-1">
+                                    {item.selectedVariant.type}: {item.selectedVariant.name}
+                                  </p>
+                                )}
                                 <p className="text-[10px] text-brand-red font-mono font-bold">₹{item.price.toLocaleString()}</p>
                               </div>
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center border border-brand-border rounded-sm">
-                                  <button onClick={() => updateQuantity(item.id, -1)} className="p-1.5 hover:bg-brand-border transition-colors"><Minus className="w-3 h-3" /></button>
+                                  <button onClick={() => updateQuantity(item.id, -1, item.selectedVariant?.id)} className="p-1.5 hover:bg-brand-border transition-colors"><Minus className="w-3 h-3" /></button>
                                   <span className="w-8 text-center text-[10px] font-bold">{item.quantity}</span>
-                                  <button onClick={() => updateQuantity(item.id, 1)} className="p-1.5 hover:bg-brand-border transition-colors"><Plus className="w-3 h-3" /></button>
+                                  <button onClick={() => updateQuantity(item.id, 1, item.selectedVariant?.id)} className="p-1.5 hover:bg-brand-border transition-colors"><Plus className="w-3 h-3" /></button>
                                 </div>
-                                <button onClick={() => removeFromCart(item.id)} className="text-brand-muted hover:text-brand-red transition-colors">
+                                <button onClick={() => removeFromCart(item.id, item.selectedVariant?.id)} className="text-brand-muted hover:text-brand-red transition-colors">
                                   <Trash2 className="w-4 h-4" />
                                 </button>
                               </div>

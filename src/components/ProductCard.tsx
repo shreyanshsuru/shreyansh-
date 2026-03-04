@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
 import { motion } from 'motion/react';
-import { Share2, Heart } from 'lucide-react';
+import { Share2, Heart, Plus, Minus, ShoppingCart } from 'lucide-react';
 import QuickViewModal from './QuickViewModal';
 import { useToast } from '../ToastContext';
 import { useWishlist } from '../WishlistContext';
+import { useCart } from '../CartContext';
 
 interface ProductCardProps {
   product: Product;
@@ -13,13 +14,28 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState(product.variants?.[0]);
   const { showToast } = useToast();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addToCart } = useCart();
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.stopPropagation();
     toggleWishlist(product);
     showToast(isInWishlist(product.id) ? 'REMOVED FROM WISHLIST' : 'ADDED TO SYNDICATE WISHLIST');
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (product.isSoldOut) return;
+    addToCart(product, quantity, selectedVariant);
+    showToast(`${quantity} x ${product.name}${selectedVariant ? ` (${selectedVariant.name})` : ''} ADDED TO SYNDICATE CART`);
+  };
+
+  const updateQuantity = (e: React.MouseEvent, delta: number) => {
+    e.stopPropagation();
+    setQuantity(prev => Math.max(1, prev + delta));
   };
 
   const handleShare = (e: React.MouseEvent) => {
@@ -89,10 +105,52 @@ export default function ProductCard({ product }: ProductCardProps) {
           
           {/* Quick View Overlay */}
           {!product.isSoldOut && (
-            <div className="absolute inset-0 bg-brand-bg/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-4">
               <span className="bg-black text-white text-[10px] font-bold tracking-[0.2em] px-6 py-3 uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                 Quick View
               </span>
+              
+              <div className="flex flex-col items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                {product.variants && (
+                  <div className="flex gap-1 mb-1" onClick={(e) => e.stopPropagation()}>
+                    {product.variants.map((variant) => (
+                      <button
+                        key={variant.id}
+                        onClick={() => setSelectedVariant(variant)}
+                        className={`px-2 py-1 text-[8px] font-bold uppercase border transition-all ${
+                          selectedVariant?.id === variant.id 
+                            ? 'bg-brand-red border-brand-red text-white' 
+                            : 'bg-white border-brand-border text-black hover:border-brand-red'
+                        }`}
+                      >
+                        {variant.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <div className="flex items-center bg-white border border-brand-border rounded-sm overflow-hidden">
+                  <button 
+                    onClick={(e) => updateQuantity(e, -1)}
+                    className="p-1.5 hover:bg-brand-border transition-colors"
+                  >
+                    <Minus className="w-3 h-3" />
+                  </button>
+                  <span className="w-8 text-center text-[10px] font-bold font-mono">{quantity}</span>
+                  <button 
+                    onClick={(e) => updateQuantity(e, 1)}
+                    className="p-1.5 hover:bg-brand-border transition-colors"
+                  >
+                    <Plus className="w-3 h-3" />
+                  </button>
+                </div>
+                <button 
+                  onClick={handleAddToCart}
+                  className="bg-brand-red text-white text-[9px] font-bold tracking-[0.2em] px-4 py-2 uppercase flex items-center gap-2 hover:bg-black transition-colors"
+                >
+                  <ShoppingCart className="w-3 h-3" />
+                  Add to Cart
+                </button>
+              </div>
             </div>
           )}
 
