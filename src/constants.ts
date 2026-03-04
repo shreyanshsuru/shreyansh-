@@ -20,7 +20,8 @@ export const PRODUCTS: Product[] = [
     category: 'Tops',
     size: ['M', 'L', 'XL'],
     drop: 'DROP 01',
-    description: 'Engineered for the streets, this oversized tee offers a modern silhouette with a breathable carbon-washed cotton fabric.'
+    description: 'Engineered for the streets, this oversized tee offers a modern silhouette with a breathable carbon-washed cotton fabric.',
+    isSoldOut: true
   },
   {
     id: '3',
@@ -62,5 +63,67 @@ export const PRODUCTS: Product[] = [
     size: ['S', 'M', 'L', 'XL'],
     drop: 'DROP 01',
     description: 'Sleek and functional joggers with a tapered fit. Designed for movement and everyday urban exploration.'
+  },
+  {
+    id: '7',
+    name: 'SYNDICATE GRAPHIC TEE',
+    price: 1799,
+    image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800&auto=format&fit=crop',
+    category: 'Tops',
+    size: ['S', 'M', 'L', 'XL'],
+    drop: 'DROP 02',
+    description: 'Limited edition graphic tee featuring the Syndicate emblem. High-density screen print on premium cotton.'
+  },
+  {
+    id: '8',
+    name: 'UTILITY CARGO SHORTS',
+    price: 2499,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&auto=format&fit=crop',
+    category: 'Bottoms',
+    size: ['M', 'L', 'XL'],
+    drop: 'DROP 02',
+    description: 'Lightweight utility shorts for the summer heat. Water-resistant fabric with quick-access pockets.'
+  },
+  {
+    id: '9',
+    name: 'TACTICAL CROSSBODY BAG',
+    price: 1599,
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop',
+    category: 'Accessories',
+    size: ['S'],
+    drop: 'DROP 02',
+    description: 'Compact tactical bag for your essentials. Weatherproof zippers and adjustable Syndicate strap.',
+    isSoldOut: true
+  },
+  {
+    id: '10',
+    name: 'NEON ACCENT WIND BREAKER',
+    price: 4999,
+    image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop',
+    category: 'Tops',
+    size: ['S', 'M', 'L', 'XL'],
+    drop: 'DROP 02',
+    description: 'Ultra-lightweight windbreaker with neon accents for night visibility. Packable design for the urban commuter.',
+    originalPrice: 6499
+  },
+  {
+    id: '11',
+    name: 'SYNDICATE BUCKET HAT',
+    price: 999,
+    image: 'https://images.unsplash.com/photo-1521369909029-2afed882baee?q=80&w=800&auto=format&fit=crop',
+    category: 'Accessories',
+    size: ['S', 'M'],
+    drop: 'DROP 02',
+    description: 'Classic bucket hat with embroidered Syndicate logo. Breathable cotton twill for all-day comfort.'
+  },
+  {
+    id: '12',
+    name: 'STEALTH CARGO PANTS',
+    price: 3799,
+    image: 'https://images.unsplash.com/photo-1517441667397-09930582d11a?q=80&w=800&auto=format&fit=crop',
+    category: 'Bottoms',
+    size: ['S', 'M', 'L', 'XL'],
+    drop: 'DROP 02',
+    description: 'Minimalist cargo pants with hidden pockets. Stretch fabric for maximum mobility in the city.'
   }
 ];

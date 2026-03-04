@@ -13,6 +13,7 @@ export default function App() {
   const [selectedSizes, setSelectedSizes] = useState<Size[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
   const [sortBy, setSortBy] = useState<SortOption>('Newest Arrivals');
+  const [visibleCount, setVisibleCount] = useState(6);
 
   const filteredProducts = useMemo(() => {
     let result = [...PRODUCTS];
@@ -133,7 +134,7 @@ export default function App() {
           {/* Product Grid */}
           <div className="flex-grow">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-              {filteredProducts.map((product) => (
+              {filteredProducts.slice(0, visibleCount).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
@@ -144,9 +145,12 @@ export default function App() {
               </div>
             )}
 
-            {filteredProducts.length > 0 && (
+            {filteredProducts.length > visibleCount && (
               <div className="mt-20 flex justify-center">
-                <button className="px-12 py-4 border border-brand-border text-[10px] font-bold tracking-[0.3em] uppercase hover:bg-black hover:text-white transition-all duration-300">
+                <button 
+                  onClick={() => setVisibleCount(prev => prev + 3)}
+                  className="px-12 py-4 border border-brand-border text-[10px] font-bold tracking-[0.3em] uppercase hover:bg-black hover:text-white transition-all duration-300"
+                >
                   LOAD MORE DESIGNS
                 </button>
               </div>

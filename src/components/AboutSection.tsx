@@ -134,6 +134,15 @@ export default function AboutSection() {
               REDEFINING THE <br />
               <span className="text-black/90">URBAN UNIFORM</span>
             </h2>
+            <div className="relative w-full h-48 bg-brand-border rounded-sm overflow-hidden mb-8">
+              <img 
+                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop" 
+                alt="Urban Uniform Detail" 
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-brand-red/10 group-hover:bg-transparent transition-colors"></div>
+            </div>
             <div className="space-y-6 text-brand-muted leading-relaxed">
               <p>
                 Mumbai Syndicate was born from the chaos and energy of the streets. Our vision is to create high-performance streetwear that serves as a second skin for the modern urban explorer.
@@ -162,6 +171,42 @@ export default function AboutSection() {
               <p className="text-lg font-bold italic tracking-tight">CRAFTED IN THE HEART OF MUMBAI</p>
             </div>
           </motion.div>
+        </div>
+
+        {/* In-Store Sales & Offers */}
+        <div className="mb-32">
+          <div className="p-12 border-2 border-brand-red bg-brand-red/5 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 bg-brand-red text-white text-[10px] font-bold tracking-widest uppercase">
+              IN-STORE EXCLUSIVE
+            </div>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase mb-6 leading-none">
+                  SALES & <br />
+                  <span className="text-brand-red">OFFERS</span>
+                </h2>
+                <p className="text-sm text-brand-muted uppercase tracking-widest mb-8 leading-relaxed">
+                  Visit our flagship stores in Mumbai for exclusive in-store drops and up to 50% off on last season's archive.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <div className="px-6 py-3 border border-brand-red text-[10px] font-bold tracking-widest uppercase">
+                    FLAT 30% OFF ON HOODIES
+                  </div>
+                  <div className="px-6 py-3 border border-brand-red text-[10px] font-bold tracking-widest uppercase">
+                    BUY 2 GET 1 ON TEES
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-square bg-brand-border rounded-sm overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=400&auto=format&fit=crop" alt="Store 1" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                </div>
+                <div className="aspect-square bg-brand-border rounded-sm overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=400&auto=format&fit=crop" alt="Store 2" className="w-full h-full object-cover grayscale" referrerPolicy="no-referrer" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Support & Care */}

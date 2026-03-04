@@ -8,6 +8,7 @@ export interface Product {
   drop: string;
   description: string;
   originalPrice?: number;
+  isSoldOut?: boolean;
 }
 
 export type Category = 'All Products' | 'Tops' | 'Bottoms' | 'Accessories';
